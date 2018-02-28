@@ -64,12 +64,24 @@ Size& Size::operator= (const Vec2& point)
 
 Size Size::operator+(const Size& right) const
 {
-    return Size(this->width + right.width, this->height + right.height);
+  return Size(this->width + right.width, this->height + right.height);
 }
 
 Size Size::operator-(const Size& right) const
 {
-    return Size(this->width - right.width, this->height - right.height);
+  return Size(this->width - right.width, this->height - right.height);
+}
+
+Size& Size::operator+=(const Size& right)
+{
+  setSize(this->width += right.width, this->height += right.height);
+  return *this;
+}
+
+Size& Size::operator-=(const Size& right)
+{
+  setSize(this->width -= right.width, this->height -= right.height);
+  return *this;
 }
 
 Size Size::operator*(float a) const
@@ -80,7 +92,20 @@ Size Size::operator*(float a) const
 Size Size::operator/(float a) const
 {
 	CCASSERT(a!=0, "CCSize division by 0.");
-    return Size(this->width / a, this->height / a);
+  return Size(this->width / a, this->height / a);
+}
+
+Size& Size::operator*=(float a)
+{
+  setSize(this->width *= a, this->height *= a);
+  return *this;
+}
+
+Size& Size::operator/=(float a)
+{
+  CCASSERT(a!=0, "CCSize division by 0.");
+  setSize(this->width /= a, this->height /= a);
+  return *this;
 }
 
 void Size::setSize(float w, float h)

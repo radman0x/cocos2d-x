@@ -90,12 +90,32 @@ public:
      * @js NA
      * @lua NA
      */
+    Size& operator+=(const Size& right);
+    /**
+     * @js NA
+     * @lua NA
+     */
+    Size& operator-=(const Size& right);
+    /**
+     * @js NA
+     * @lua NA
+     */
     Size operator*(float a) const;
     /**
      * @js NA
      * @lua NA
      */
     Size operator/(float a) const;
+    /**
+     * @js NA
+     * @lua NA
+     */
+    Size& operator*=(float a);
+    /**
+     * @js NA
+     * @lua NA
+     */
+    Size& operator/=(float a);
     /**
     Set the width and height of Size.
      * @js NA

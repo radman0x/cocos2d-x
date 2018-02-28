@@ -461,6 +461,11 @@ public:
 
     ResourceData getRenderFile();
 
+    /**
+     *get the content size of the layout, it will accumulate all its children's content size
+     */
+    Size getLayoutAccumulatedSize() const;
+
 CC_CONSTRUCTOR_ACCESS:
     //override "init" method of widget.
     virtual bool init() override;
@@ -496,10 +501,7 @@ protected:
     void updateBackGroundImageOpacity();
     void updateBackGroundImageRGBA();
     
-    /**
-     *get the content size of the layout, it will accumulate all its children's content size
-     */
-    Size getLayoutAccumulatedSize() const;
+
     
     /**
      * When the layout get focused, it the layout pass the focus to its child, it will use this method to determine which child 

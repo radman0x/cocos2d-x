@@ -1026,39 +1026,62 @@ bool Layout::isPassFocusToChild()const
 
 Size Layout::getLayoutAccumulatedSize()const
 {
-    const auto& children = this->getChildren();
     Size layoutSize = Size::ZERO;
-    int widgetCount =0;
-    for(const auto& widget : children)
+    auto getChildSizes = [this]()
     {
-        Layout *layout = dynamic_cast<Layout*>(widget);
-        if (nullptr != layout)
+        std::vector<cocos2d::Size> sizes;
+        for(const auto& child : this->getChildren())
         {
-            layoutSize = layoutSize + layout->getLayoutAccumulatedSize();
-        }
-        else
-        {
-            Widget *w = dynamic_cast<Widget*>(widget);
-            if (w)
+            if (auto layout = dynamic_cast<Layout*>(child))
             {
-                widgetCount++;
+                switch(layout->getLayoutType())
+                {
+                case Type::HORIZONTAL:
+                case Type::VERTICAL:
+                  sizes.push_back(layout->getLayoutAccumulatedSize());
+                case Type::ABSOLUTE:
+                case Type::RELATIVE:
+                  sizes.push_back(layout->getContentSize());
+                default:
+                  CCASSERT(false, "Unrecognized type in switch!");
+                }
+            }
+            else if (auto w = dynamic_cast<Widget*>(child))
+            {
                 Margin m = w->getLayoutParameter()->getMargin();
-                layoutSize = layoutSize + w->getContentSize() + Size(m.right + m.left,  m.top + m.bottom) * 0.5;
+                sizes.push_back(w->getContentSize() + Size(m.right + m.left,  m.top + m.bottom) * 0.5);
             }
         }
-    }
-    
-    //subtract extra size
-    Type type = this->getLayoutType();
-    if (type == Type::HORIZONTAL)
+        return sizes;
+    }; // lambda
+
+    switch(this->getLayoutType())
     {
-        layoutSize = layoutSize - Size(0, layoutSize.height/widgetCount * (widgetCount-1));
-    }
-    if (type == Type::VERTICAL)
+    case Type::HORIZONTAL:
     {
-        layoutSize = layoutSize - Size(layoutSize.width/widgetCount * (widgetCount-1), 0);
+        for (const auto& size : getChildSizes())
+        {
+            layoutSize.width += size.width;
+            layoutSize.height = size.height > layoutSize.height ? size.height : layoutSize.height;
+        }
+        return layoutSize;
     }
-    return layoutSize;
+    case Type::VERTICAL:
+    {
+        for (const auto& size : getChildSizes())
+        {
+            layoutSize.height += size.height;
+            layoutSize.width = size.width > layoutSize.width ? size.width : layoutSize.width;
+        }
+        return layoutSize;
+    }
+    case Type::ABSOLUTE:
+    case Type::RELATIVE:
+        CCASSERT(false, "Calculation of accumulated size only valid for Horizontal or Vertical layout types");
+    default:
+        CCASSERT(false, "Unrecognized type in switch!");
+        return layoutSize;
+    };
 }
 
 Vec2 Layout::getWorldCenterPoint(Widget* widget)const
