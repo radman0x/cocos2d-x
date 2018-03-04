@@ -2,6 +2,8 @@ macro (SetCompilerOptions)
 	set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -DCOCOS2D_DEBUG=1")
 	set(CMAKE_CXX_FLAGS_DEBUG ${CMAKE_C_FLAGS_DEBUG})
 
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
+	
     # definitions for chipmunk
 	if (USE_CHIPMUNK)
 		add_definitions(-DCC_ENABLE_CHIPMUNK_INTEGRATION=1)
