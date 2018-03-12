@@ -1,8 +1,6 @@
 macro (SetCompilerOptions)
 	set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -DCOCOS2D_DEBUG=1")
 	set(CMAKE_CXX_FLAGS_DEBUG ${CMAKE_C_FLAGS_DEBUG})
-
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
 	
     # definitions for chipmunk
 	if (USE_CHIPMUNK)
@@ -40,6 +38,9 @@ macro (SetCompilerOptions)
 
 	# Compiler options
 	if(MSVC)
+    
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
+
 	  add_definitions(-D_CRT_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_WARNINGS
 	                  -wd4251 -wd4244 -wd4334 -wd4005 -wd4820 -wd4710
 	                  -wd4514 -wd4056 -wd4996 -wd4099)
