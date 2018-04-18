@@ -1049,7 +1049,7 @@ Size Layout::getLayoutAccumulatedSize()const
             else if (auto w = dynamic_cast<Widget*>(child))
             {
                 Margin m = w->getLayoutParameter()->getMargin();
-                sizes.push_back(w->getContentSize() + Size(m.right + m.left,  m.top + m.bottom) * 0.5);
+                sizes.push_back(w->getBoundingBox().size + Size(m.right + m.left,  m.top + m.bottom) * 0.5);
             }
         }
         return sizes;
