@@ -1039,9 +1039,11 @@ Size Layout::getLayoutAccumulatedSize()const
                 case Type::HORIZONTAL:
                 case Type::VERTICAL:
                   sizes.push_back(layout->getLayoutAccumulatedSize());
+                  break;
                 case Type::ABSOLUTE:
                 case Type::RELATIVE:
                   sizes.push_back(layout->getContentSize());
+                  break;
                 default:
                   CCASSERT(false, "Unrecognized type in switch!");
                 }
