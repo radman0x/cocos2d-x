@@ -82,7 +82,7 @@ public:
      * @param fileName   file name of texture.
      * @param texType    @see `Widget::TextureResType`
      */
-    void loadTexture(const std::string& fileName,TextureResType texType = TextureResType::LOCAL);
+    void loadTexture(const std::string& fileName, TextureResType texType = TextureResType::LOCAL);
 
     /**
      * Updates the texture rect of the ImageView in points.
@@ -133,12 +133,13 @@ CC_CONSTRUCTOR_ACCESS:
     virtual bool init() override;
     virtual bool init(const std::string& imageFileName, TextureResType texType = TextureResType::LOCAL);
 
+    void loadTexture(SpriteFrame* spriteframe);
+
 protected:
     virtual void initRenderer() override;
     virtual void onSizeChanged() override;
     
     virtual void adaptRenderers() override;
-    void loadTexture(SpriteFrame* spriteframe);
     void setupTexture();
     
     void imageTextureScaleChangedWithSize();
